@@ -51,6 +51,10 @@ export const LoginScreen = () => {
     const isPasswordValid = validatePassword(password);
 
     if (isEmailValid && isPasswordValid) {
+      if (email !== 'halo@adeyusuf.com' || password !== '@adeyusuf2026') {
+        Alert.alert('Login Failed', 'Invalid email or password.');
+        return;
+      }
       try {
         await login(email);
       } catch (error) {
@@ -127,11 +131,13 @@ const getStyles = (isDarkMode: boolean) =>
       fontWeight: 'bold',
       color: isDarkMode ? '#FFFFFF' : '#333333',
       marginBottom: 8,
+      textAlign: "center"
     },
     subtitle: {
       fontSize: 16,
       color: isDarkMode ? '#AAAAAA' : '#666666',
       marginBottom: 40,
+      textAlign: "center"
     },
     inputContainer: {
       marginBottom: 20,

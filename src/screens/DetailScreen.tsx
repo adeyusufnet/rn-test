@@ -1,15 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, useColorScheme } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { View, Text, StyleSheet, ScrollView, useColorScheme, TouchableOpacity } from 'react-native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { UserCard } from '../components/UserCard';
+import { useAuthStore } from '../store/useAuthStore';
 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
 
 export const DetailScreen = () => {
+  const { email, logout } = useAuthStore();
   const route = useRoute<DetailScreenRouteProp>();
   const isDarkMode = useColorScheme() === 'dark';
   const styles = getStyles(isDarkMode);
+
+  const navigation = useNavigation();
 
   const { user } = route.params || {};
 
@@ -28,7 +32,7 @@ export const DetailScreen = () => {
 
       <View style={styles.detailsContainer}>
         <Text style={styles.sectionTitle}>Contact Information</Text>
-        
+
         <View style={styles.detailRow}>
           <Text style={styles.detailLabel}>Phone:</Text>
           <Text style={styles.detailValue}>{user.phone}</Text>
@@ -55,7 +59,19 @@ export const DetailScreen = () => {
         <Text style={styles.companyName}>{user.company.name}</Text>
         <Text style={styles.companyPhrase}>"{user.company.catchPhrase}"</Text>
         <Text style={styles.companyBs}>{user.company.bs}</Text>
+
+        <View style={{
+          marginTop: 20
+        }}>
+
+          <TouchableOpacity style={styles.button} onPress={() => {
+            navigation.goBack()
+          }}>
+            <Text style={styles.buttonText}>Kembali</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+
     </ScrollView>
   );
 };
@@ -65,6 +81,20 @@ const getStyles = (isDarkMode: boolean) =>
     container: {
       flex: 1,
       backgroundColor: isDarkMode ? '#121212' : '#F5F5F5',
+    },
+    button: {
+      display: "flex",
+      width: "100%",
+      padding: 20,
+      backgroundColor: isDarkMode ? '#9b9b9bff' : '#121212',
+      borderRadius: 12,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    buttonText: {
+      color: "#FFFFFF",
+      fontSize: 16,
+      fontWeight: "bold",
     },
     content: {
       paddingBottom: 24,

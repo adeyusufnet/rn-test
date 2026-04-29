@@ -15,6 +15,8 @@ import { UserCard } from '../components/UserCard';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
+import HeaderComponent from '../components/Header';
+import EmptyState from '../components/EmptyState';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -56,27 +58,6 @@ export const HomeScreen = () => {
 
   const styles = getStyles(isDarkMode);
 
-  const renderHeader = () => (
-    <View style={styles.header}>
-      <View>
-        <Text style={styles.greeting}>Hello,</Text>
-        <Text style={styles.emailText}>{email}</Text>
-      </View>
-      <TouchableOpacity onPress={logout} style={styles.logoutButton}>
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
-  const renderEmptyState = () => {
-    if (loading) return null; // Avoid showing empty state while loading initially
-    return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.emptyText}>No data available</Text>
-      </View>
-    );
-  };
-
   if (loading && !refreshing) {
     return (
       <View style={[styles.container, styles.centerContainer]}>
@@ -104,8 +85,8 @@ export const HomeScreen = () => {
         renderItem={({ item }) => (
           <UserCard user={item} onPress={() => handleUserPress(item)} />
         )}
-        ListHeaderComponent={renderHeader}
-        ListEmptyComponent={renderEmptyState}
+        ListHeaderComponent={<HeaderComponent email={email} logout={logout} styles={styles} />}
+        ListEmptyComponent={<EmptyState loading={loading} styles={styles} />}
         contentContainerStyle={styles.listContent}
         refreshControl={
           <RefreshControl
@@ -139,12 +120,12 @@ const getStyles = (isDarkMode: boolean) =>
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingHorizontal: 16,
-      paddingVertical: 20,
       backgroundColor: isDarkMode ? '#1E1E1E' : '#FFFFFF',
       borderBottomWidth: 1,
       borderBottomColor: isDarkMode ? '#333333' : '#E0E0E0',
       marginBottom: 8,
+      marginTop: 24,
+      padding: 24
     },
     greeting: {
       fontSize: 14,
@@ -158,9 +139,12 @@ const getStyles = (isDarkMode: boolean) =>
     },
     logoutButton: {
       paddingHorizontal: 12,
-      paddingVertical: 6,
+      paddingVertical: 12,
       backgroundColor: isDarkMode ? '#333333' : '#F0F0F0',
       borderRadius: 6,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     logoutText: {
       fontSize: 14,

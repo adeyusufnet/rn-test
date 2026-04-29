@@ -21,7 +21,7 @@ export const AppNavigator = () => {
 
   useEffect(() => {
     checkAuth();
-  }, []);
+  }, [checkAuth]);
 
   if (isLoading) {
     return (
@@ -37,15 +37,15 @@ export const AppNavigator = () => {
         {token ? (
           // User is signed in
           <>
-            <Stack.Screen 
-              name="Home" 
-              component={HomeScreen} 
-              options={{ title: 'Dashboard' }} 
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{ title: 'Dashboard', headerShown: false }}
             />
-            <Stack.Screen 
-              name="Detail" 
-              component={DetailScreen} 
-              options={{ title: 'User Details' }} 
+            <Stack.Screen
+              name="Detail"
+              component={DetailScreen}
+              options={{ title: 'User Details', headerShown: false }}
             />
           </>
         ) : (

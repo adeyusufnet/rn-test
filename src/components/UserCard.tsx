@@ -59,6 +59,7 @@ const getStyles = (isDarkMode: boolean) =>
       shadowOpacity: isDarkMode ? 0.3 : 0.05,
       shadowRadius: 4,
       elevation: 3,
+      marginTop: 42,
     },
     avatar: {
       width: 50,
