@@ -4,6 +4,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { UserCard } from '../components/UserCard';
 import { useAuthStore } from '../store/useAuthStore';
+import HeaderComponent from '../components/Header';
 
 type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
 
@@ -27,6 +28,7 @@ export const DetailScreen = () => {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <HeaderComponent email={email} logout={logout} styles={styles} />
       {/* Reusable Component from Home */}
       <UserCard user={user} disabled={true} />
 
@@ -81,6 +83,41 @@ const getStyles = (isDarkMode: boolean) =>
     container: {
       flex: 1,
       backgroundColor: isDarkMode ? '#121212' : '#F5F5F5',
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: isDarkMode ? '#1E1E1E' : '#FFFFFF',
+      borderBottomWidth: 1,
+      borderBottomColor: isDarkMode ? '#333333' : '#E0E0E0',
+      marginBottom: 8,
+      marginTop: 24,
+      padding: 24
+    },
+    greeting: {
+      fontSize: 14,
+      color: isDarkMode ? '#AAAAAA' : '#666666',
+      marginBottom: 2,
+    },
+    emailText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: isDarkMode ? '#FFFFFF' : '#333333',
+    },
+    logoutButton: {
+      paddingHorizontal: 12,
+      paddingVertical: 12,
+      backgroundColor: isDarkMode ? '#333333' : '#F0F0F0',
+      borderRadius: 6,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    logoutText: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: '#FF3B30',
     },
     button: {
       display: "flex",
